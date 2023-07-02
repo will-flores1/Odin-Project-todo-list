@@ -1,0 +1,50 @@
+body {
+  background-color: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+ul {
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.todo-item {
+  background-color: #fff3df;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.label {
+  margin-bottom: -18px;
+  font-weight: 700;
+}
+
+.delete-btn {
+  float: right;
+  margin-top: -50px;
+  margin-right: 20px;
+  // red color
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+#add-todo {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  margin-bottom: 10px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #eeeeeeb1;
+  }
+}
