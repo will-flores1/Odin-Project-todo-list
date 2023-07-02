@@ -23,7 +23,52 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `body {
   background-color: #fff;
-}`, "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACE,sBAAA;AACF","sourcesContent":["body {\n  background-color: #fff;\n}\n"],"sourceRoot":""}]);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+ul {
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.todo-item {
+  background-color: #fff3df;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.label {
+  margin-bottom: -18px;
+  font-weight: 700;
+}
+
+.delete-btn {
+  float: right;
+  margin-top: -50px;
+  margin-right: 20px;
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+#add-todo {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+#add-todo:hover {
+  cursor: pointer;
+  background-color: rgba(238, 238, 238, 0.6941176471);
+}`, "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACE,sBAAA;EACA,gBAAA;EACA,cAAA;AACF;;AAEA;EACE,UAAA;EACA,kBAAA;AACF;;AAEA;EACE,qBAAA;AACF;;AAEA;EACE,yBAAA;EACA,aAAA;EACA,6BAAA;AACF;;AAEA;EACE,oBAAA;EACA,gBAAA;AACF;;AAEA;EACE,YAAA;EACA,iBAAA;EACA,kBAAA;EAEA,yBAAA;EACA,WAAA;EACA,YAAA;EACA,eAAA;EACA,kBAAA;AAAF;;AAGA;EACE,aAAA;EACA,WAAA;EACA,YAAA;EACA,eAAA;EACA,mBAAA;AAAF;AAEE;EACE,eAAA;EACA,mDAAA;AAAJ","sourcesContent":["body {\n  background-color: #fff;\n  max-width: 800px;\n  margin: 0 auto;\n}\n\nul {\n  padding: 0;\n  margin: 0 0 40px 0;\n}\n\nli {\n  list-style-type: none;\n}\n\n.todo-item {\n  background-color: #fff3df;\n  padding: 10px;\n  border-bottom: 1px solid #ccc;\n}\n\n.label {\n  margin-bottom: -18px;\n  font-weight: 700;\n}\n\n.delete-btn {\n  float: right;\n  margin-top: -50px;\n  margin-right: 20px;\n  // red color\n  background-color: #ff0000;\n  color: #fff;\n  border: none;\n  cursor: pointer;\n  padding: 10px 15px;\n}\n\n#add-todo {\n  padding: 10px;\n  width: 100%;\n  border: none;\n  font-size: 16px;\n  margin-bottom: 10px;\n\n  &:hover {\n    cursor: pointer;\n    background-color: #eeeeeeb1;\n  }\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -493,6 +538,18 @@ var TodoItem = /** @class */ (function () {
     TodoItem.prototype.title = function () {
         return this._title;
     };
+    TodoItem.prototype.description = function () {
+        return this._description;
+    };
+    TodoItem.prototype.dueDate = function () {
+        return this._dueDate.toLocaleDateString();
+    };
+    TodoItem.prototype.priority = function () {
+        return this._priority;
+    };
+    TodoItem.prototype.notes = function () {
+        return this._notes;
+    };
     TodoItem.prototype.completed = function () {
         return this._completed;
     };
@@ -621,21 +678,112 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var todos = new _objects_Todos__WEBPACK_IMPORTED_MODULE_1__["default"]();
-var item1 = new _objects_TodoItem__WEBPACK_IMPORTED_MODULE_2__["default"]("Title", "Description", new Date(), 1, "Notes");
-var item2 = new _objects_TodoItem__WEBPACK_IMPORTED_MODULE_2__["default"]("Title", "Description", new Date(), 1, "Notes");
+var item1 = new _objects_TodoItem__WEBPACK_IMPORTED_MODULE_2__["default"]("Title", "Description", new Date(), "Low", "Notes");
+var item2 = new _objects_TodoItem__WEBPACK_IMPORTED_MODULE_2__["default"]("Title", "Description", new Date(), "Medium", "Notes");
+var item3 = new _objects_TodoItem__WEBPACK_IMPORTED_MODULE_2__["default"]("Title", "Description", new Date(), "High", "Notes");
 todos.add(item1);
 todos.add(item2);
-var todoList = document.querySelector("#todo-list");
-var todoUL = document.createElement("ul");
-todoList.appendChild(todoUL);
-todos.list().forEach(function (todo) {
-    var li = document.createElement("li");
-    li.textContent = todo.title();
-    todoUL.appendChild(li);
+todos.add(item3);
+var todoContainer = document.querySelector("#todo-list");
+var todoList = document.createElement("ul");
+todoContainer.appendChild(todoList);
+function renderList() {
+    todoList.innerHTML = "";
+    todos.list().forEach(function (todo) {
+        var li = document.createElement("li");
+        li.classList.add("todo-item");
+        var h2 = document.createElement("h2");
+        h2.textContent = todo.title();
+        li.appendChild(h2);
+        var pLabel = document.createElement("p");
+        pLabel.classList.add("label");
+        pLabel.textContent = "Description:";
+        li.appendChild(pLabel);
+        var p = document.createElement("p");
+        p.textContent = todo.description();
+        li.appendChild(p);
+        var p1Label = document.createElement("p");
+        p1Label.classList.add("label");
+        p1Label.textContent = "Due Date:";
+        li.appendChild(p1Label);
+        var p2 = document.createElement("p");
+        p2.textContent = todo.dueDate();
+        li.appendChild(p2);
+        var p2Label = document.createElement("p");
+        p2Label.classList.add("label");
+        p2Label.textContent = "Priority:";
+        li.appendChild(p2Label);
+        var p3 = document.createElement("p");
+        p3.textContent = todo.priority().toString();
+        li.appendChild(p3);
+        var p3Label = document.createElement("p");
+        p3Label.classList.add("label");
+        p3Label.textContent = "Notes:";
+        li.appendChild(p3Label);
+        var p4 = document.createElement("p");
+        p4.textContent = todo.notes();
+        li.appendChild(p4);
+        // delete button
+        var deleteBtn = document.createElement("button");
+        deleteBtn.classList.add("delete-btn");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", function () {
+            todos.remove(todo);
+            renderList();
+        });
+        li.appendChild(deleteBtn);
+        todoList.appendChild(li);
+    });
+}
+renderList();
+var title = document.querySelector("#title");
+var description = document.querySelector("#description");
+var dueDate = document.querySelector("#due-date");
+var priority = document.querySelector("#priority");
+var notes = document.querySelector("#notes");
+var addTodoBtn = document.querySelector("#add-todo");
+var elArr = [title, description, dueDate, priority, notes];
+function initEventListeners(element) {
+    if (element.tagName === "INPUT") {
+        element.addEventListener("input", function (e) {
+            var target = e.target;
+            checkIfEmpty();
+        });
+    }
+    else if (element.tagName === "SELECT") {
+        element.addEventListener("change", function (e) {
+            var target = e.target;
+            checkIfEmpty();
+        });
+    }
+}
+function checkIfEmpty() {
+    if (!title.value || !description.value || !dueDate.value || !notes.value) {
+        addTodoBtn.disabled = true;
+    }
+    else {
+        addTodoBtn.disabled = false;
+    }
+}
+elArr.forEach(function (el) {
+    initEventListeners(el);
+});
+function resetForm() {
+    title.value = "";
+    description.value = "";
+    dueDate.value = "";
+    priority.value = "Low";
+    notes.value = "";
+}
+addTodoBtn.addEventListener("click", function () {
+    var todo = new _objects_TodoItem__WEBPACK_IMPORTED_MODULE_2__["default"](title.value, description.value, dueDate.valueAsDate, priority.value, notes.value);
+    todos.add(todo);
+    renderList();
+    resetForm();
 });
 
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle2ceabf0bbb1278790d3a.js.map
+//# sourceMappingURL=bundleb04b1ab08d4734344017.js.map
